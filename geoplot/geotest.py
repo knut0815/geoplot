@@ -51,30 +51,45 @@ def map_definition(main_dt):
     'Definition of the maps'
     main_dt['geo_tables'] = {}
 
-    # Germany off-shore regions
-    main_dt['geo_tables']['de_offshore'] = {
-        'table': 'deu3_21',  # name of the table
-        'geo_col': 'geom',  # name of the geometry column
-        'id_col': 'region_id',  # name of the geo-id column
-        'schema': 'deutschland',  # name of the schema
-        'simp_tolerance': '0.01',  # simplification tolerance (1)
-        'where_col': 'region_id',  # column for the where-condition
-        'where_cond': '> 11018',  # condition for the where-condition
-        'facecolor': '#a5bfdd'   # color of the polygon (blue)
-        }
+    # # Germany off-shore regions
+    # main_dt['geo_tables']['de_offshore'] = {
+    #     'table': 'deu3_21',  # name of the table
+    #     'geo_col': 'geom',  # name of the geometry column
+    #     'id_col': 'region_id',  # name of the geo-id column
+    #     'schema': 'deutschland',  # name of the schema
+    #     'simp_tolerance': '0.01',  # simplification tolerance (1)
+    #     'where_col': 'region_id',  # column for the where-condition
+    #     'where_cond': '> 11018',  # condition for the where-condition
+    #     'facecolor': '#a5bfdd'   # color of the polygon (blue)
+    #     }
 
-    # Germany on-shore regions
-    main_dt['geo_tables']['de_onshore'] = {
-        'table': 'deu3_21',
+    # # Germany on-shore regions
+    # main_dt['geo_tables']['de_onshore'] = {
+    #     'table': 'deu3_21',
+    #     'geo_col': 'geom',
+    #     'id_col': 'region_id',
+    #     'schema': 'deutschland',
+    #     'simp_tolerance': '0.01',
+    #     'where_col': 'region_id',
+    #     'where_cond': '< 11019',
+    #     'linewidth': 1,
+    #     'facecolor': None
+    #     }
+
+    # CoastDat2 grid for the Germany 21 region
+    main_dt['geo_tables']['de_grid'] = {
+        'table': 'de_grid',
         'geo_col': 'geom',
-        'id_col': 'region_id',
-        'schema': 'deutschland',
+        'id_col': 'gid',
+        'schema': 'coastdat',
+        'facecolor': 'red',
         'simp_tolerance': '0.01',
-        'where_col': 'region_id',
-        'where_cond': '< 11019',
-        'facecolor': '#badd69'
+        'where_col': 'gid',
+        'where_cond': '> 0',
+        'linewidth': -0.1,
+        'alpha': 0.5,
+        'color_map': 'seismic'
         }
-
 
 def box_definition(main_dt):
     'Definition of the bounding box'
@@ -147,14 +162,19 @@ def get_vectors_from_postgis_map(main_dt, mp):
 
 
 def create_geoplot(main_dt, key):
-    'Draw the geometries onto the map'
+    """Draw the geometries onto the map"""
+    farbe = np.array(range(1, 793)) / 792
+    n = 0
+    cmap = plt.get_cmap('hsv')
     for mp in main_dt['geo_tables'][key]['geom']:
         vectors = get_vectors_from_postgis_map(main_dt, wkt_loads(mp[1]))
         lines = LineCollection(vectors, antialiaseds=(1, ))
-        lines.set_facecolors(main_dt['geo_tables'][key]['facecolor'])
+        lines.set_facecolors(cmap(farbe[n]))
+        # lines.set_facecolors(main_dt['geo_tables'][key]['facecolor'])
         lines.set_edgecolors('white')
         lines.set_linewidth(1)
         main_dt['ax'].add_collection(lines)
+        n += 1
 
 
 def create_plot(main_dt):

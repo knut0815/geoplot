@@ -131,12 +131,14 @@ class GeoPlotter:
             self.ax.add_collection(lines)
             n += 1
 
-    def showplot(self):
+    def draftplot(self, **kwargs):
         """Creates the basic plot object.
         """
         self.ax = plt.subplot(111)
         plt.box(on=None)
-        self.plot()
+        self.plot(**kwargs)
+        if self.data is not None:
+            self.draw_legend((0, 1), integer=False)
         plt.tight_layout()
         plt.show()
 
@@ -149,6 +151,47 @@ class GeoPlotter:
             projection=projection)
         bm.drawcoastlines(linewidth=0)
         return bm
+
+    def draw_legend(self, interval, legendlabel='Label', fontsize=15,
+                    **kwargs):
+        """Draw legend.
+
+        Parameters:
+        -----------
+        interval : tuple
+            Defining the minimum and maximum value of the legend representing
+            0 to 1 from the data set.
+        """
+        dataarray = np.clip(np.random.randn(250, 250), -1, 1)
+        cax = self.ax.imshow(
+            dataarray,
+            interpolation=kwargs.get('interpolation', 'nearest'),
+            vmin=kwargs.get('vmin', 0),
+            vmax=kwargs.get('vmax', 1),
+            cmap=plt.get_cmap(self.cmapname))
+        cbar = self.basemap.colorbar(
+            cax,
+            location=kwargs.get('location', 'bottom'),
+            pad=kwargs.get('pad', '5%'),
+            extend=kwargs.get('extend', 'max'))
+        cbar.set_label(legendlabel, size=fontsize)
+        cbar.ax.tick_params(labelsize=fontsize)
+        cbar.set_clim(kwargs.get('vmin', 0), kwargs.get('vmax', 1))
+
+        def create_ticks(min_val, max_val, integer=False,
+                         number_ticks=kwargs.get('number_ticks', 5)):
+            tick_list = [min_val]
+            for n in range(number_ticks - 2):
+                tick_list.append((n + 1) * (max_val - min_val) /
+                                 (number_ticks - 1) + min_val)
+            tick_list.append(max_val)
+            if integer:
+                tick_list = [int(x) for x in tick_list]
+            return tick_list
+        cbar.set_ticks(create_ticks(0, 1))
+        cbar.set_ticklabels(create_ticks(
+            interval[0], interval[1], integer=kwargs.get(
+                'integer', True)))
 
 
 def postgis2shapely(postgis):

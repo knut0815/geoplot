@@ -34,13 +34,14 @@ class GeoPlotter:
 
 
     """
-    def __init__(self, geom, **kwargs):
+    def __init__(self, geom, bbox, **kwargs):
         self.geometries = geom
-        # 'bbox': (x1, x2, y1, y2)
-        self.bbox = kwargs.get('bbox')
-        self.basemap = kwargs.get('basemap', self.create_basemap())
+        self.bbox = bbox
         self.ax = kwargs.get('ax')
+        self.color = kwargs.get('color', 'blue')
         self.data = kwargs.get('data')
+        self.cmapname = kwargs.get('cmapname', 'seismic')
+        self.basemap = kwargs.get('basemap', self.create_basemap())
 
     def create_vectors_multipolygon(self, multipolygon):
         """Create the vectors for MultiPolygons.
@@ -104,21 +105,27 @@ class GeoPlotter:
             print(msg)
         return vectors
 
-    def plot(self, ax=None):
+    def plot(self, ax=None, cmapname=None):
         """Draw the geometries onto the map"""
         if ax is not None:
             self.ax = ax
         if self.ax is None:
             # error
             pass
-        farbe = np.array(range(1, 793)) / 792
         n = 0
-        cmap = plt.get_cmap('hsv')
-        for mp in self.geometries:
-            vectors = self.get_vectors_from_postgis_map(mp)
+        if cmapname is None:
+            cmap = plt.get_cmap(self.cmapname)
+        for geo in self.geometries:
+            vectors = self.get_vectors_from_postgis_map(geo)
             lines = LineCollection(vectors, antialiaseds=(1, ))
-            lines.set_facecolors(cmap(farbe[n]))
-            # lines.set_facecolors(main_dt['geo_tables'][key]['facecolor'])
+            if self.data is not None:
+                lines.set_facecolors(cmap(self.data[n]))
+            elif isinstance(self.color, float):
+                lines.set_facecolors(cmap(float))
+            elif isinstance(self.color, str):
+                lines.set_facecolors(self.color)
+            else:
+                lines.set_facecolors(self.color[n])
             lines.set_edgecolors('white')
             lines.set_linewidth(1)
             self.ax.add_collection(lines)

@@ -11,6 +11,28 @@ class GeoPlotter:
     -----------
     geometries : list of shapely.geometry objects
         List of geometries to be plotted
+    bbox : tuple
+        Definition of a bounding box (x1, x2, y1, y2)
+
+    Attributes:
+    -----------
+    ax : matplotlib.axis object
+        An axis object for plots
+    basemap : basemap object
+        A basemap object from the matplotlib basemap extension. If not set
+        a very basic basemap in a mercator projection will be created
+    cmapname : string
+        Name of the color map from matplotlib (LINK!) (default: 'seismic')
+    color : string, float or iterable
+        Definition of the plot color. Can be an iterable with a color
+         definition for each geometry, a string with one color for
+          all geometries or a float to define one color for all geometries
+          from the cmap (default: blue).
+    data : iterable
+        Data set to define the color. Values must be between 0 an 1. Should
+         be None (not defined) to use the color attribute
+
+
     """
     def __init__(self, geom, **kwargs):
         self.geometries = geom

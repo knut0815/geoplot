@@ -109,12 +109,10 @@ class GeoPlotter:
         """Draw the geometries onto the map"""
         if ax is not None:
             self.ax = ax
-        if self.ax is None:
-            # error
-            pass
         n = 0
-        if cmapname is None:
-            cmap = plt.get_cmap(self.cmapname)
+        if cmapname is not None:
+            self.cmapname = cmapname
+        cmap = plt.get_cmap(self.cmapname)
         for geo in self.geometries:
             vectors = self.get_vectors_from_postgis_map(geo)
             lines = LineCollection(vectors, antialiaseds=(1, ))

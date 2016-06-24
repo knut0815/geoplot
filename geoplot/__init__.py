@@ -212,5 +212,5 @@ class GeoPlotter:
 def postgis2shapely(postgis):
     geometries = list()
     for geo in postgis:
-        geometries.append(wkt_loads(geo[1]))
+        geometries.append(wkt_loads(geo))
     return geometries

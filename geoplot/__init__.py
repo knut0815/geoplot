@@ -37,7 +37,7 @@ class GeoPlotter:
     def __init__(self, geom, bbox, **kwargs):
         self.geometries = geom
         self.bbox = bbox
-        self.ax = kwargs.get('ax')
+        self._ax = kwargs.get('ax', plt.subplot(111))
         self.color = kwargs.get('color', 'blue')
         self.data = kwargs.get('data')
         self.cmapname = kwargs.get('cmapname', 'seismic')
@@ -192,6 +192,16 @@ class GeoPlotter:
         cbar.set_ticklabels(create_ticks(
             interval[0], interval[1], integer=kwargs.get(
                 'integer', True)))
+
+    @property
+    def ax(self):
+        return self._ax
+
+    @ax.setter
+    def ax(self, new_ax, my_basemap=None):
+        self._ax = new_ax
+        if my_basemap is None:
+            self.basemap = self.create_basemap()
 
 
 def postgis2shapely(postgis):

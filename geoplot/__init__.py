@@ -152,7 +152,7 @@ class GeoPlotter:
         bm.drawcoastlines(linewidth=0)
         return bm
 
-    def draw_legend(self, interval, legendlabel='Label', fontsize=15,
+    def draw_legend(self, interval=(0, 1), legendlabel='Label', fontsize=15,
                     **kwargs):
         """Draw legend.
 
@@ -188,10 +188,11 @@ class GeoPlotter:
             if integer:
                 tick_list = [int(x) for x in tick_list]
             return tick_list
-        cbar.set_ticks(create_ticks(0, 1))
-        cbar.set_ticklabels(create_ticks(
-            interval[0], interval[1], integer=kwargs.get(
-                'integer', True)))
+        if not kwargs.get('default_ticks', False):
+            cbar.set_ticks(create_ticks(0, 1))
+            cbar.set_ticklabels(
+                create_ticks(interval[0], interval[1], integer=kwargs.get(
+                    'integer', False)))
 
     @property
     def ax(self):

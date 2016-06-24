@@ -195,8 +195,9 @@ class GeoPlotter:
         if not kwargs.get('default_ticks', False):
             cbar.set_ticks(create_ticks(0, 1))
             cbar.set_ticklabels(
-                create_ticks(interval[0], interval[1], integer=kwargs.get(
-                    'integer', False)))
+                kwargs.get('tick_list', create_ticks(
+                    interval[0], interval[1], integer=kwargs.get(
+                        'integer', False))))
 
     @property
     def ax(self):

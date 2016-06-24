@@ -106,7 +106,7 @@ class GeoPlotter:
         return vectors
 
     def plot(self, ax=None, cmapname=None):
-        """Draw the geometries onto the map"""
+        """Plot the geometries on the basemap using the defined colors"""
         if ax is not None:
             self.ax = ax
         n = 0
@@ -125,12 +125,12 @@ class GeoPlotter:
             else:
                 lines.set_facecolors(self.color[n])
             lines.set_edgecolors('white')
-            lines.set_linewidth(1)
+            lines.set_linewidth(-0.1)
             self.ax.add_collection(lines)
             n += 1
 
     def draftplot(self, **kwargs):
-        """Creates the basic plot object.
+        """Show a draft plot of the geometries.
         """
         self.ax = plt.subplot(111)
         plt.box(on=None)
@@ -141,7 +141,10 @@ class GeoPlotter:
         plt.show()
 
     def create_basemap(self, projection='merc'):
-        """Creates the basemap: 'bbox': (x1, x2, y1, y2)
+        """Creates a very basic basemap: 'bbox': (x1, x2, y1, y2)
+
+        If you want to use the power of basemap you can write your own basemap
+        and pass it to you object
         """
         bm = Basemap(
             llcrnrlat=self.bbox[2], urcrnrlat=self.bbox[3],
@@ -152,7 +155,10 @@ class GeoPlotter:
 
     def draw_legend(self, interval=(0, 1), legendlabel='Label', fontsize=15,
                     **kwargs):
-        """Draw legend.
+        """Draw a typical legend.
+
+        If you want to do something special you can write your own legend
+         function in your app and use it instead.
 
         Parameters:
         -----------

@@ -39,9 +39,9 @@ class GeoPlotter:
         self.bbox = bbox
         self._ax = kwargs.get('ax', plt.subplot(111))
         self.color = kwargs.get('color', 'blue')
-        self.data = kwargs.get('data')
         self.cmapname = kwargs.get('cmapname', 'seismic')
         self.basemap = kwargs.get('basemap', self.create_basemap())
+        self.data = kwargs.get('data')
 
     def create_vectors_multipolygon(self, multipolygon):
         """Create the vectors for MultiPolygons.
@@ -105,13 +105,18 @@ class GeoPlotter:
             print(msg)
         return vectors
 
-    def plot(self, ax=None, cmapname=None):
+    def plot(self, ax=None, cmapname=None, linewidth=1, edgecolor='grey',
+             facecolor=None):
         """Plot the geometries on the basemap using the defined colors"""
         if ax is not None:
             self.ax = ax
         n = 0
+        if facecolor is not None:
+            self.color = facecolor
         if cmapname is not None:
             self.cmapname = cmapname
+        if self.data is not None:
+            self.data = np.array(self.data)
         cmap = plt.get_cmap(self.cmapname)
         for geo in self.geometries:
             vectors = self.get_vectors_from_postgis_map(geo)
@@ -124,8 +129,8 @@ class GeoPlotter:
                 lines.set_facecolors(self.color)
             else:
                 lines.set_facecolors(self.color[n])
-            lines.set_edgecolors('white')
-            lines.set_linewidth(-0.1)
+            lines.set_edgecolors(edgecolor)
+            lines.set_linewidth(linewidth)
             self.ax.add_collection(lines)
             n += 1
 
@@ -205,6 +210,15 @@ class GeoPlotter:
 
     @ax.setter
     def ax(self, new_ax, my_basemap=None):
+        """Updates the basemap if the axis is updated.
+
+        Arguments:
+        ----------
+        new_ax : matplotlib axis object
+            New axis object.
+        my_basemap: matplotlib basemap
+            Pass you own basemap to use it instead.
+        """
         self._ax = new_ax
         if my_basemap is None:
             self.basemap = self.create_basemap()

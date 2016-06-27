@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import geoplot
 import pickle
+import pandas as pd
 from shapely.geometry import Polygon
 plt.style.use('ggplot')
 
@@ -29,12 +30,14 @@ data = np.random.rand(len(geom))
 
 # Create plotter object
 my_example = geoplot.GeoPlotter(geom, bbox, data=data)
-
 my_example.draftplot()
 
 # ************* 2nd example *************
 
-# Create a dictionary using the data from above
+# Create a dictionary to initialise the object.
+geom = pickle.load(open('region.data', 'rb'))
+data = np.random.rand(len(geom))
+bbox = (13.1, 13.76, 52.3, 52.7)
 
 parameters = {'geom': geom,
               'bbox': bbox,
@@ -43,30 +46,54 @@ parameters = {'geom': geom,
 
 second_example = geoplot.GeoPlotter(**parameters)
 
-second_example.plot(ax=plt.subplot(121))
+second_example.plot(ax=plt.subplot(121), linewidth=0)
 second_example.draw_legend((0, 1), legendlabel="Intensity",
                            extend='neither')
+plt.box(on=None)
 
 # Create a sorted data set
 second_example.data = np.array(range(len(geom))) / len(geom)
 second_example.cmapname = 'winter'
-second_example.plot(ax=plt.subplot(122))
-second_example.draw_legend((3, 50), integer=True, legendlabel="Height [m]",
+second_example.plot(ax=plt.subplot(122), edgecolor='white')
+second_example.draw_legend((3, 50), integer=True, legendlabel="Level [m]",
                            extend='min')
 
 plt.tight_layout()
+plt.box(on=None)
 plt.show()
 
 # ************* 3rd example *************
 
-parameters = {'geom': pickle.load(open('test.data', 'rb')),
+parameters = {'geom': pickle.load(open('plr.data', 'rb')),
               'bbox': (13.1, 13.76, 52.3, 52.7),
-              'data': np.random.rand(12)}
+              'data': np.random.rand(453)}
 
 third_example = geoplot.GeoPlotter(**parameters)
-third_example.plot(cmapname='cool')
-third_example.draw_legend((0, 4), integer=True, location='right',
+third_example.plot(cmapname='cool', linewidth=0)
+third_example.draw_legend(location='right', tick_list=[0, 1, 10, 100, 1000],
                           legendlabel="Coolness factor in Berlin")
 
 plt.tight_layout()
+plt.box(on=None)
+plt.show()
+
+# ************* 4th example *************
+# Plot different Maps in one plot. Use csv files with geometries in the
+# wkt-format (well-known-text).
+
+my_df = pd.read_csv('onshore.csv')
+onshore = geoplot.postgis2shapely(my_df.geom)
+
+fourth_example = geoplot.GeoPlotter(onshore, (3, 16, 47, 56))
+fourth_example.plot(facecolor='#badd69', edgecolor='white')
+
+fourth_example.geometries = geoplot.postgis2shapely(
+    pd.read_csv('offshore.csv').geom)
+fourth_example.plot(facecolor='#a5bfdd', edgecolor='white')
+
+fourth_example.geometries = pickle.load(open('region.data', 'rb'))
+fourth_example.plot(facecolor='#aa0000', edgecolor='#aa0000')
+
+plt.tight_layout()
+plt.box(on=None)
 plt.show()

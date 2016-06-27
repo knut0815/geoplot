@@ -63,7 +63,7 @@ plt.box(on=None)
 plt.show()
 
 # ************* 3rd example *************
-
+# Plot an overview and zoom into in a second plot
 parameters = {'geom': pickle.load(open('plr.data', 'rb')),
               'bbox': (13.1, 13.76, 52.3, 52.7),
               'data': np.random.rand(453)}
@@ -73,6 +73,15 @@ third_example.plot(cmapname='cool', linewidth=0)
 third_example.draw_legend(location='right', tick_list=[0, 1, 10, 100, 1000],
                           legendlabel="Coolness factor in Berlin")
 
+plt.tight_layout()
+plt.box(on=None)
+plt.show()
+
+# Zoom into the plot
+third_example.bbox = (13.4, 13.6, 52.45, 52.55)
+third_example.plot(ax=plt.subplot(111), cmapname='cool', linewidth=0)
+third_example.draw_legend(location='right', tick_list=[0, 1, 10, 100, 1000],
+                          legendlabel="Coolness factor in Berlin")
 plt.tight_layout()
 plt.box(on=None)
 plt.show()

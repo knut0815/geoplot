@@ -108,3 +108,15 @@ fourth_example.plot(facecolor='#aa0000', edgecolor='#aa0000')
 plt.tight_layout()
 plt.box(on=None)
 plt.show()
+
+# ************* 5th example *************
+my_df = pd.read_csv(os.path.join('data', 'lines.csv'))
+geom = geoplot.postgis2shapely(my_df.geom)
+fifth_example = geoplot.GeoPlotter(geom, (-12, 24, 36, 61))
+fifth_example.basemap.resolution = 'f'
+fifth_example.basemap.shadedrelief()
+fifth_example.basemap.drawcountries(color='white')
+fifth_example.plot(edgecolor='#4d55ba', linewidth=2, alpha=0.6)
+plt.tight_layout()
+plt.box(on=None)
+plt.show()

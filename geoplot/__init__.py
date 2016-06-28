@@ -204,6 +204,21 @@ class GeoPlotter:
                     interval[0], interval[1], integer=kwargs.get(
                         'integer', False))))
 
+    def draw_coordinate_system(self):
+        """Draws parallels and meridians - still experimental
+        """
+        # Draw parallels and meridians
+        self.basemap.drawparallels(
+            np.arange(self.bbox[2], self.bbox[3], 3),
+            labels=[1, 0, 0, 0], color='grey', dashes=[1, 0.1],
+            labelstyle='+/-',
+            linewidth=0.2)
+        self.basemap.drawmeridians(
+            np.arange(self.bbox[0], self.bbox[1], 3),
+            labels=[0, 0, 0, 1], color='grey', dashes=[1, 0.1],
+            labelstyle='+/-',
+            linewidth=0.2)
+
     @property
     def ax(self):
         return self._ax

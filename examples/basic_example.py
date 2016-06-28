@@ -4,6 +4,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import geoplot
+import os.path
 import pickle
 import pandas as pd
 from shapely.geometry import Polygon
@@ -35,7 +36,7 @@ my_example.draftplot()
 # ************* 2nd example *************
 
 # Create a dictionary to initialise the object.
-geom = pickle.load(open('region.data', 'rb'))
+geom = pickle.load(open(os.path.join('data', 'region.data'), 'rb'))
 data = np.random.rand(len(geom))
 bbox = (13.1, 13.76, 52.3, 52.7)
 
@@ -64,7 +65,7 @@ plt.show()
 
 # ************* 3rd example *************
 # Plot an overview and zoom into in a second plot
-parameters = {'geom': pickle.load(open('plr.data', 'rb')),
+parameters = {'geom': pickle.load(open(os.path.join('data', 'plr.data'), 'rb')),
               'bbox': (13.1, 13.76, 52.3, 52.7),
               'data': np.random.rand(453)}
 
@@ -90,17 +91,18 @@ plt.show()
 # Plot different Maps in one plot. Use csv files with geometries in the
 # wkt-format (well-known-text).
 
-my_df = pd.read_csv('onshore.csv')
+my_df = pd.read_csv(os.path.join('data', 'onshore.csv'))
 onshore = geoplot.postgis2shapely(my_df.geom)
 
 fourth_example = geoplot.GeoPlotter(onshore, (3, 16, 47, 56))
 fourth_example.plot(facecolor='#badd69', edgecolor='white')
 
 fourth_example.geometries = geoplot.postgis2shapely(
-    pd.read_csv('offshore.csv').geom)
+    pd.read_csv(os.path.join('data', 'offshore.csv')).geom)
 fourth_example.plot(facecolor='#a5bfdd', edgecolor='white')
 
-fourth_example.geometries = pickle.load(open('region.data', 'rb'))
+fourth_example.geometries = pickle.load(
+    open(os.path.join('data', 'region.data'), 'rb'))
 fourth_example.plot(facecolor='#aa0000', edgecolor='#aa0000')
 
 plt.tight_layout()

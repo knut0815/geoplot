@@ -15,7 +15,7 @@ geom = list()
 x2 = 13.3
 y2 = 52.5
 for x in range(10):
-    for y in range (5):
+    for y in range(5):
         x1 = 13.3 + x / 10
         x2 = 13.4 + x / 10
         y1 = 52.5 + y / 10

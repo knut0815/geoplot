@@ -106,7 +106,7 @@ class GeoPlotter:
         return vectors
 
     def plot(self, ax=None, cmapname=None, linewidth=1, edgecolor='grey',
-             facecolor=None):
+             facecolor=None, alpha=1):
         """Plot the geometries on the basemap using the defined colors"""
         if ax is not None:
             self.ax = ax
@@ -131,6 +131,7 @@ class GeoPlotter:
                 lines.set_facecolors(self.color[n])
             lines.set_edgecolors(edgecolor)
             lines.set_linewidth(linewidth)
+            lines.set_alpha(alpha)
             self.ax.add_collection(lines)
             n += 1
 
@@ -178,6 +179,7 @@ class GeoPlotter:
             vmin=kwargs.get('vmin', 0),
             vmax=kwargs.get('vmax', 1),
             cmap=plt.get_cmap(self.cmapname))
+        cax.set_alpha(kwargs.get('alpha', 1))
         cbar = self.basemap.colorbar(
             cax,
             location=kwargs.get('location', 'bottom'),

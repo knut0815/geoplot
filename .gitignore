@@ -63,3 +63,4 @@ target/
 
 # IDEs
 .idea/
+/examples/get_from_db.py

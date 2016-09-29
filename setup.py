@@ -17,8 +17,10 @@ setup(name='geoplot',
       description='Geoplot for the open energy modelling framework',
       packages=find_packages(),
       package_dir={'geoplot': 'geoplot'},
-      install_requires=['shapely >= 1.5',
+      install_requires=['shapely >= 1.4',
                         'matplotlib >= 1.4',
-                        'basemap >= 0.1',
+                        'basemap >= 1.0',
+                        'pyproj',
+                        'pillow',
                         'numpy >= 1.7.0']
       )

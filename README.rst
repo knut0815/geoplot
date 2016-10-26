@@ -38,15 +38,15 @@ Plotting different maps into one figure using specific colours
   
 .. image:: docs/gallery/germany_grid_regions_plus_berlin.png
 
-Plotting the electrical output of wind power plants (left) and photovoltaik power plants
+Plotting the electrical output of wind (left) and pv power plants
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-(Germany, 2012 using the coastDat2 weather data set)
+(Germany, 2012, using the coastDat2 weather data set)
  
 .. image:: docs/gallery/pv_and_wind_power_feedin.png
 
 Plotting lines onto a relief map from matplotlib basemap
- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  
 .. image:: docs/gallery/european_substitute_grid.png
    

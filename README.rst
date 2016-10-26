@@ -16,6 +16,8 @@ Use pypi to install the latest version.
 Gallery
 =======
 
+The code of the following maps can be found in the `example file <https://github.com/rl-institut/geoplot/blob/master/examples/basic_examples.py>`_.
+
 Plotting a map based on Berlin's planing regions (random data)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   
@@ -38,7 +40,7 @@ Plotting different maps into one figure using specific colours
   
 .. image:: docs/gallery/germany_grid_regions_plus_berlin.png
 
-Plotting the electrical output of wind (left) and pv power plants
+Plotting the electrical output of wind (left) and pv (right) power plants
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 (Germany, 2012, using the coastDat2 weather data set)

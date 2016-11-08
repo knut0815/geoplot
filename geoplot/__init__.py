@@ -129,6 +129,8 @@ class GeoPlotter:
             self.cmapname = cmapname
         if self.data is not None:
             self.data = np.array(self.data)
+        if cmap is None:
+            cmap = plt.get_cmap(self.cmapname)
         for geo in self.geometries:
             vectors = self.get_vectors_from_postgis_map(geo)
             lines = LineCollection(vectors, antialiaseds=(1, ))

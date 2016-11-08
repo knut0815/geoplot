@@ -43,7 +43,8 @@ bbox = (13.1, 13.76, 52.3, 52.7)
 parameters = {'geom': geom,
               'bbox': bbox,
               'data': data,
-              'cmapname': 'OrRd'}
+              'cmapname': 'OrRd',
+              'color': 'data'}
 
 second_example = geoplot.GeoPlotter(**parameters)
 
@@ -67,7 +68,8 @@ plt.show()
 # Plot an overview and zoom into in a second plot
 parameters = {'geom': pickle.load(open(os.path.join('data', 'plr.data'), 'rb')),
               'bbox': (13.1, 13.76, 52.3, 52.7),
-              'data': np.random.rand(453)}
+              'data': np.random.rand(453),
+              'color': 'data'}
 
 third_example = geoplot.GeoPlotter(**parameters)
 third_example.plot(cmapname='cool', linewidth=0)
@@ -113,10 +115,11 @@ plt.show()
 my_df = pd.read_csv(os.path.join('data', 'lines.csv'))
 geom = geoplot.postgis2shapely(my_df.geom)
 fifth_example = geoplot.GeoPlotter(geom, (-12, 24, 36, 61))
+fifth_example.data = np.random.rand(453)
 fifth_example.basemap.resolution = 'f'
 fifth_example.basemap.shadedrelief()
 fifth_example.basemap.drawcountries(color='white')
-fifth_example.plot(edgecolor='#4d55ba', linewidth=2, alpha=0.6)
+fifth_example.plot(linewidth=2, alpha=0.8, edgecolor='data')
 plt.tight_layout()
 plt.box(on=None)
 plt.show()

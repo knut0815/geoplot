@@ -105,31 +105,35 @@ class GeoPlotter:
             print(msg)
         return vectors
 
-    def plot(self, ax=None, cmapname=None, linewidth=1, edgecolor='grey',
-             facecolor=None, alpha=1):
-        """Plot the geometries on the basemap using the defined colors"""
+    def select_color(self, colortype, cmap, n=None):
+        if colortype == 'data':
+            return cmap(self.data[n])
+        elif isinstance(colortype, float):
+            return cmap(float)
+        elif isinstance(colortype, str):
+            return colortype
+        else:
+            return self.color[n]
+
+    def plot(self, ax=None, cmapname=None, cmap=None, linewidth=1,
+             edgecolor='grey', facecolor=None, alpha=1):
+        """Plot the geometries on the basemap using the defined colors
         if ax is not None:
             self.ax = ax
         n = 0
-        if facecolor is not None:
-            self.color = facecolor
+        if facecolor is None:
+            facecolor = self.color
+        if edgecolor is None:
+            edgecolor = self.color
         if cmapname is not None:
             self.cmapname = cmapname
         if self.data is not None:
             self.data = np.array(self.data)
-        cmap = plt.get_cmap(self.cmapname)
         for geo in self.geometries:
             vectors = self.get_vectors_from_postgis_map(geo)
             lines = LineCollection(vectors, antialiaseds=(1, ))
-            if self.data is not None:
-                lines.set_facecolors(cmap(self.data[n]))
-            elif isinstance(self.color, float):
-                lines.set_facecolors(cmap(float))
-            elif isinstance(self.color, str):
-                lines.set_facecolors(self.color)
-            else:
-                lines.set_facecolors(self.color[n])
-            lines.set_edgecolors(edgecolor)
+            lines.set_facecolors(self.select_color(facecolor, cmap, n))
+            lines.set_edgecolors(self.select_color(edgecolor, cmap, n))
             lines.set_linewidth(linewidth)
             lines.set_alpha(alpha)
             self.ax.add_collection(lines)
@@ -140,9 +144,11 @@ class GeoPlotter:
         """
         self.ax = plt.subplot(111)
         plt.box(on=None)
-        self.plot(**kwargs)
         if self.data is not None:
+            kwargs['facecolor'] = 'data'
+            kwargs['edgecolor'] = 'data'
             self.draw_legend((0, 1), integer=False)
+        self.plot(**kwargs)
         plt.tight_layout()
         plt.show()
 

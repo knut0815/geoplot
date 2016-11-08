@@ -118,6 +118,27 @@ class GeoPlotter:
     def plot(self, ax=None, cmapname=None, cmap=None, linewidth=1,
              edgecolor='grey', facecolor=None, alpha=1):
         """Plot the geometries on the basemap using the defined colors
+
+        Parameters:
+        -----------
+        ax : matplotlib.axis object
+            An axis object for plots. Overwrites the self.ax attribute.
+        cmapname : string
+            Name of the color map from matplotlib (LINK!) (default: 'seismic')
+        cmap : matplotlib colormap
+            You can create you own colormap and pass it to the plot.
+        linewidth : float
+            Width of the lines.
+        edgecolor : string, float or iterable
+            Definition of the edge color. Can be an iterable with a color
+            definition for each geometry, a string with one color for
+            all geometries or a float to define one color for all geometries
+            from the cmap.
+        facecolor : string, float or iterable
+            Definition of the face color. See edgecolor.
+        alpha : float
+            Level of transparency.
+        """
         if ax is not None:
             self.ax = ax
         n = 0

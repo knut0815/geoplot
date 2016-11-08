@@ -105,31 +105,58 @@ class GeoPlotter:
             print(msg)
         return vectors
 
-    def plot(self, ax=None, cmapname=None, linewidth=1, edgecolor='grey',
-             facecolor=None, alpha=1):
-        """Plot the geometries on the basemap using the defined colors"""
+    def select_color(self, colortype, cmap, n=None):
+        if colortype == 'data':
+            return cmap(self.data[n])
+        elif isinstance(colortype, float):
+            return cmap(float)
+        elif isinstance(colortype, str):
+            return colortype
+        else:
+            return self.color[n]
+
+    def plot(self, ax=None, cmapname=None, cmap=None, linewidth=1,
+             edgecolor='grey', facecolor=None, alpha=1):
+        """Plot the geometries on the basemap using the defined colors
+
+        Parameters:
+        -----------
+        ax : matplotlib.axis object
+            An axis object for plots. Overwrites the self.ax attribute.
+        cmapname : string
+            Name of the color map from matplotlib (LINK!) (default: 'seismic')
+        cmap : matplotlib colormap
+            You can create you own colormap and pass it to the plot.
+        linewidth : float
+            Width of the lines.
+        edgecolor : string, float or iterable
+            Definition of the edge color. Can be an iterable with a color
+            definition for each geometry, a string with one color for
+            all geometries or a float to define one color for all geometries
+            from the cmap.
+        facecolor : string, float or iterable
+            Definition of the face color. See edgecolor.
+        alpha : float
+            Level of transparency.
+        """
         if ax is not None:
             self.ax = ax
         n = 0
-        if facecolor is not None:
-            self.color = facecolor
+        if facecolor is None:
+            facecolor = self.color
+        if edgecolor is None:
+            edgecolor = self.color
         if cmapname is not None:
             self.cmapname = cmapname
         if self.data is not None:
             self.data = np.array(self.data)
-        cmap = plt.get_cmap(self.cmapname)
+        if cmap is None:
+            cmap = plt.get_cmap(self.cmapname)
         for geo in self.geometries:
             vectors = self.get_vectors_from_postgis_map(geo)
             lines = LineCollection(vectors, antialiaseds=(1, ))
-            if self.data is not None:
-                lines.set_facecolors(cmap(self.data[n]))
-            elif isinstance(self.color, float):
-                lines.set_facecolors(cmap(float))
-            elif isinstance(self.color, str):
-                lines.set_facecolors(self.color)
-            else:
-                lines.set_facecolors(self.color[n])
-            lines.set_edgecolors(edgecolor)
+            lines.set_facecolors(self.select_color(facecolor, cmap, n))
+            lines.set_edgecolors(self.select_color(edgecolor, cmap, n))
             lines.set_linewidth(linewidth)
             lines.set_alpha(alpha)
             self.ax.add_collection(lines)
@@ -140,9 +167,11 @@ class GeoPlotter:
         """
         self.ax = plt.subplot(111)
         plt.box(on=None)
-        self.plot(**kwargs)
         if self.data is not None:
+            kwargs['facecolor'] = 'data'
+            kwargs['edgecolor'] = 'data'
             self.draw_legend((0, 1), integer=False)
+        self.plot(**kwargs)
         plt.tight_layout()
         plt.show()
 

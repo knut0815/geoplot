@@ -3,6 +3,22 @@ geoplot
 
 A python3 library to plot shapely objects, combined with data sets.
 
+News
+====
+
+API changed slightly with commit `d6a46ad5 <https://github.com/rl-institut/geoplot/commit/d6a46ad5391aa1d684562799b8cd7a03811b39e7>`_.
+
+Now `facecolor='data'` is necessary to let the data set define the colour. With this change it is possible to define 'data' for the `edgecolor` as well.
+
+.. code:: python
+
+    my_geoplot.plot(edgecolor='data', facecolor='data')
+    my_geoplot.plot(edgecolor='data', facecolor='blue')
+    my_geoplot.plot(edgecolor='#aaff00', facecolor='blue')
+    ....
+    
+Before 
+
 Installation
 ============
 

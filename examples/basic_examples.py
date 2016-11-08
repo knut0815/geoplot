@@ -36,7 +36,8 @@ my_example.draftplot()
 # ************* 2nd example *************
 
 # Create a dictionary to initialise the object.
-geom = pickle.load(open(os.path.join('data', 'region.data'), 'rb'))
+geom = pickle.load(open(os.path.join(os.path.dirname(__file__),
+                                     'data', 'region.data'), 'rb'))
 data = np.random.rand(len(geom))
 bbox = (13.1, 13.76, 52.3, 52.7)
 
@@ -66,7 +67,8 @@ plt.show()
 
 # ************* 3rd example *************
 # Plot an overview and zoom into in a second plot
-parameters = {'geom': pickle.load(open(os.path.join('data', 'plr.data'), 'rb')),
+parameters = {'geom': pickle.load(open(os.path.join(os.path.dirname(__file__),
+                                                    'data', 'plr.data'), 'rb')),
               'bbox': (13.1, 13.76, 52.3, 52.7),
               'data': np.random.rand(453),
               'color': 'data'}
@@ -93,18 +95,20 @@ plt.show()
 # Plot different Maps in one plot. Use csv files with geometries in the
 # wkt-format (well-known-text).
 
-my_df = pd.read_csv(os.path.join('data', 'onshore.csv'))
+my_df = pd.read_csv(os.path.join(os.path.dirname(__file__),
+                                 'data', 'onshore.csv'))
 onshore = geoplot.postgis2shapely(my_df.geom)
 
 fourth_example = geoplot.GeoPlotter(onshore, (3, 16, 47, 56))
 fourth_example.plot(facecolor='#badd69', edgecolor='white')
 
 fourth_example.geometries = geoplot.postgis2shapely(
-    pd.read_csv(os.path.join('data', 'offshore.csv')).geom)
+    pd.read_csv(os.path.join(os.path.dirname(__file__),
+                             'data', 'offshore.csv')).geom)
 fourth_example.plot(facecolor='#a5bfdd', edgecolor='white')
 
 fourth_example.geometries = pickle.load(
-    open(os.path.join('data', 'region.data'), 'rb'))
+    open(os.path.join(os.path.dirname(__file__), 'data', 'region.data'), 'rb'))
 fourth_example.plot(facecolor='#aa0000', edgecolor='#aa0000')
 
 plt.tight_layout()
@@ -112,7 +116,8 @@ plt.box(on=None)
 plt.show()
 
 # ************* 5th example *************
-my_df = pd.read_csv(os.path.join('data', 'lines.csv'))
+my_df = pd.read_csv(os.path.join(os.path.dirname(__file__),
+                                 'data', 'lines.csv'))
 geom = geoplot.postgis2shapely(my_df.geom)
 fifth_example = geoplot.GeoPlotter(geom, (-12, 24, 36, 61))
 fifth_example.data = np.random.rand(453)

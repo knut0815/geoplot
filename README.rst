@@ -1,7 +1,7 @@
 geoplot
 -------
 
-A python library to plot shapely objects, combined with data sets.
+A python3 library to plot shapely objects, combined with data sets.
 
 Installation
 ============

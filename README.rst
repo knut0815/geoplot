@@ -6,12 +6,24 @@ A python library to plot shapely objects, combined with data sets.
 Installation
 ============
 
-Use pypi to install the latest version.
+Use pypi to install the latest version. It is recommended to install basemap first.
 
 .. code:: bash
 
-  pip3 install -e /path/to/your/clone/geoplotlib
+  pip install git+https://github.com/matplotlib/basemap.git
+  pip install git+https://github.com/rl-institut/geoplot.git
   
+If your geos version is too old for the newest version of shapely, you can install an older one.
+
+.. code:: bash
+
+  pip install shapely==1.4.3
+  
+If you want to run the examples you have to install pandas.
+
+.. code:: bash
+
+  pip install pandas
 
 Gallery
 =======

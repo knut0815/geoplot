@@ -22,7 +22,7 @@ Before
 Installation
 ============
 
-Use pypi to install the latest version. It is recommended to install basemap first.
+Use pypi to install the latest version. It is recommended to install basemap and shapely first. To install shapely the `GEOS library <https://trac.osgeo.org/geos/>`_ has to be available. Go to the `shapely project page <https://pypi.python.org/pypi/Shapely>`_ to learn how to install shapely.
 
 .. code:: bash
 

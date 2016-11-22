@@ -16,8 +16,7 @@ Now `facecolor='data'` is necessary to let the data set define the colour. With 
     my_geoplot.plot(edgecolor='data', facecolor='blue')
     my_geoplot.plot(edgecolor='#aaff00', facecolor='blue')
     ....
-    
-Before 
+
 
 Installation
 ============

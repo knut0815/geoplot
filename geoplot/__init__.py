@@ -205,13 +205,14 @@ class GeoPlotter:
             Defining the minimum and maximum value of the legend representing
             0 to 1 from the data set.
         """
+        lcmap = kwargs.get('cmap', plt.get_cmap(self.cmapname))
         dataarray = np.clip(np.random.randn(250, 250), -1, 1)
         cax = self.ax.imshow(
             dataarray,
             interpolation=kwargs.get('interpolation', 'nearest'),
             vmin=kwargs.get('vmin', 0),
             vmax=kwargs.get('vmax', 1),
-            cmap=plt.get_cmap(self.cmapname))
+            cmap=lcmap)
         cax.set_alpha(kwargs.get('alpha', 1))
         cbar = self.basemap.colorbar(
             cax,

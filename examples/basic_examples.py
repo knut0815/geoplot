@@ -129,6 +129,8 @@ fifth_example.basemap.resolution = 'f'
 fifth_example.basemap.shadedrelief()
 fifth_example.basemap.drawcountries(color='white')
 fifth_example.plot(linewidth=2, alpha=0.8, edgecolor='data', cmap=my_cmap)
+fifth_example.draw_legend(location='right', tick_list=[0, 1, 10, 100, 1000],
+                          legendlabel="Grid usage", cmap=my_cmap)
 plt.tight_layout()
 plt.box(on=None)
 plt.show()

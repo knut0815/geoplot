@@ -42,6 +42,7 @@ class GeoPlotter:
         self.cmapname = kwargs.get('cmapname', 'seismic')
         self.basemap = kwargs.get('basemap', self.create_basemap())
         self.data = kwargs.get('data')
+        self.nancolor = kwargs.get('nancolor', 'grey')
 
     def create_vectors_multipolygon(self, multipolygon):
         """Create the vectors for MultiPolygons.
@@ -107,7 +108,10 @@ class GeoPlotter:
 
     def select_color(self, colortype, cmap, n=None):
         if colortype == 'data':
-            return cmap(self.data[n])
+            if np.isnan(self.data[n]):
+                return self.nancolor
+            else:
+                return cmap(self.data[n])
         elif isinstance(colortype, float):
             return cmap(float)
         elif isinstance(colortype, str):

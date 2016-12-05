@@ -16,12 +16,13 @@ Now `facecolor='data'` is necessary to let the data set define the colour. With 
     my_geoplot.plot(edgecolor='data', facecolor='blue')
     my_geoplot.plot(edgecolor='#aaff00', facecolor='blue')
     ....
-
+    
+Before 
 
 Installation
 ============
 
-Use pypi to install the latest version. It is recommended to install basemap and shapely first. To install shapely the `GEOS library <https://trac.osgeo.org/geos/>`_ has to be available. Go to the `shapely project page <https://pypi.python.org/pypi/Shapely>`_ to learn how to install shapely.
+Use pypi to install the latest version. It is recommended to install basemap first.
 
 .. code:: bash
 

@@ -38,7 +38,7 @@ class GeoPlotter:
         self.geometries = geom
         self.bbox = bbox
         self._ax = kwargs.get('ax', plt.subplot(111))
-        self.color = kwargs.get('color', 'blue')
+        self.color = kwargs.get('color', None)
         self.cmapname = kwargs.get('cmapname', 'seismic')
         self.basemap = kwargs.get('basemap', self.create_basemap())
         self.data = kwargs.get('data')
@@ -116,6 +116,8 @@ class GeoPlotter:
             return cmap(float)
         elif isinstance(colortype, str):
             return colortype
+        elif isinstance(colortype, type(None)):
+            return 'none'
         else:
             return self.color[n]
 
